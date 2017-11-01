@@ -26,7 +26,7 @@ public class ProvidedTestCasesTest {
         List<String> lines = FileUtils.fileToList(outputFile);
 
         for (String line : lines){
-            output.add(Integer.getInteger(line));
+            output.add(Integer.parseInt(line));
         }
 
         return output;

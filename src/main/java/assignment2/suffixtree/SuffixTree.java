@@ -11,14 +11,17 @@ public class SuffixTree {
     private Node root;
 
     public SuffixTree(String text){
+
+        root.setText(text);
+
         root = new Node(-1);
         Node node1 = new Node(0);
-        Edge edge1 = new Edge(text, node1);
+        Edge edge1 = new Edge(0, text.length(), node1);
         root.addEdge(edge1);
     }
 
-    public void addSuffix(String suffix, int position){
-        root.addSuffix(suffix, position);
+    public void addSuffix(int position){
+        root.addSuffix(position);
     }
 
     public List<Integer> search(String text, List<String> patterns){

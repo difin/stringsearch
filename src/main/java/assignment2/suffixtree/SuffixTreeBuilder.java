@@ -17,8 +17,7 @@ public class SuffixTreeBuilder {
             if (i % 1000 == 0)
                 System.out.println(i);
 
-            String suffix = text.substring(i);
-            suffixTree.addSuffix(suffix, i);
+            suffixTree.addSuffix(i);
         }
 
         return suffixTree;

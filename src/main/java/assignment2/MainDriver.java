@@ -101,7 +101,7 @@ public class MainDriver {
         assert output1.size() == output2.size();
 
         for (int i=0; i<output1.size(); i++){
-            assert output2.get(i) == output1.get(i);
+            assert output2.get(i).intValue() == output1.get(i).intValue();
         }
 
         timer.stop();
