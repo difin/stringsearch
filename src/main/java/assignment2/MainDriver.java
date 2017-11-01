@@ -1,5 +1,7 @@
 package assignment2;
 
+import assignment2.suffixtree.SuffixTree;
+import assignment2.suffixtree.SuffixTreeBuilder;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.io.IOException;
@@ -20,12 +22,18 @@ public class MainDriver {
     private List<String> patterns;
 
     private List<Integer> basicAlgorithmOutput;
-    private List<Integer> prefixCodesAlgorithmOutput;
+    private List<Integer> suffixCodesAlgorithmOutput;
 
     public MainDriver(){
         stringFile = "string.txt";
         patternsFile = "patterns.txt";
         outputFile = "output.txt";
+    }
+
+    public MainDriver(String directory, String outputFile) {
+        this.stringFile = directory + "/" + "string.txt";
+        this.patternsFile = directory + "/" + "patterns.txt";
+        this.outputFile = directory + "/" + outputFile;
     }
 
     public static void main(String[] args) throws IOException {
@@ -38,7 +46,7 @@ public class MainDriver {
         readFilesIntoMemory();
         runBasicAlgorithm();
         runSuffixTreesAlgorithm();
-        verifyOutputEquality(basicAlgorithmOutput, prefixCodesAlgorithmOutput);
+        verifyOutputEquality(basicAlgorithmOutput, suffixCodesAlgorithmOutput);
         createOutputFile(basicAlgorithmOutput);
     }
 
@@ -71,7 +79,7 @@ public class MainDriver {
         timer.start();
 
         SuffixTreeBuilder suffixTreeBuilder = new SuffixTreeBuilder();
-        Node tree = suffixTreeBuilder.buildSuffixTree(text);
+        SuffixTree suffixTree = suffixTreeBuilder.buildSuffixTree(text);
 
         timer.stop();
         System.out.println("Suffix tree build time: " + timer.toString());
@@ -79,12 +87,10 @@ public class MainDriver {
         timer.reset();
         timer.start();
 
-        //prefixCodesAlgorithmOutput = PrefixCodesAlgorithm.search(text, patterns, maxDistance);
-
-        prefixCodesAlgorithmOutput = BasicAlgorithm.search(text, patterns);
+        suffixCodesAlgorithmOutput = suffixTree.search(text, patterns);
 
         timer.stop();
-        System.out.println("Prefix codes algorithm time: " + timer.toString());
+        System.out.println("Suffix codes algorithm time: " + timer.toString());
     }
 
     public static void verifyOutputEquality(List<Integer> output1, List<Integer> output2){

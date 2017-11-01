@@ -1,4 +1,4 @@
-package assignment2;
+package assignment2.suffixtree;
 
 /**
  * Created by dfingerman on 10/30/17.
