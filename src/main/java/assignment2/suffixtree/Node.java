@@ -23,8 +23,8 @@ public class Node {
     }
 
     public void addEdge(Edge edge){
-        edges.add(edge);
-        //insertEdge(0, edges.size(), edge);
+        //edges.add(edge);
+        insertEdge(0, edges.size(), edge);
     }
 
     public int getPosition() {
@@ -41,13 +41,13 @@ public class Node {
 
         for (Edge edge : edges){
 
-            int commonCount = commonCharactersCount(edge.getStartPosition(), edge.getEndPosition(), position, text.length());
+            int commonCount = countCommonPrefixLength(edge.getStartPosition(), edge.getEndPosition(), position, text.length());
 
             if (commonCount > 0){
 
                 if (commonCount < edge.getEndPosition() - edge.getStartPosition()){
 
-                    if (edge.getEndPosition() - (edge.getStartPosition() + commonCount)  > 1){
+                    if (edge.getEndPosition() - (edge.getStartPosition() + commonCount) > 0){
 
                         Edge edge2 = new Edge(edge.getStartPosition() + commonCount, edge.getEndPosition(), edge.getNode());
 
@@ -69,11 +69,6 @@ public class Node {
 
                         int edge1StartPosition = -1;
                         int edge1EndPosition = -1;
-
-                        if (position + commonCount != text.length()){
-                            edge1StartPosition = position + commonCount;
-                            edge1EndPosition = text.length();
-                        }
 
                         Edge edge1 = new Edge(edge1StartPosition, edge1EndPosition, node1);
                         edge.getNode().addEdge(edge1);
@@ -148,7 +143,7 @@ public class Node {
         return 0;
     }
 
-    private int commonCharactersCount(int start1, int end1, int start2, int end2){
+    private int countCommonPrefixLength(int start1, int end1, int start2, int end2){
 
         int count = 0;
 
@@ -172,7 +167,7 @@ public class Node {
         return count;
     }
 
-    private int commonCharactersCount(String s1, String s2){
+    private int countCommonPrefixLength(String s1, String s2){
 
         int start1 = 0;
         int end1 = s1.length();
@@ -206,17 +201,13 @@ public class Node {
         for (Edge edge : getEdges()){
 
             if (edge.getStartPosition() == -1){
-
-                if (pattern.length() > 0){
-                    return -1;
-                }
-                else{
+                if (pattern.length() == 0){
                     return edge.getNode().getPosition();
                 }
             }
 
             String edgeValue = text.substring(edge.getStartPosition(), edge.getEndPosition());
-            int commonCount = commonCharactersCount(edgeValue, pattern);
+            int commonCount = countCommonPrefixLength(edgeValue, pattern);
 
             if (commonCount == pattern.length()){
                 return edge.getNode().getPosition();

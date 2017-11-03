@@ -14,7 +14,7 @@ public class SuffixTreeBuilder {
 
         for (int i=1; i<text.length(); i++){
 
-            if (i % 1000 == 0)
+            if (i % 10000 == 0)
                 System.out.println(i);
 
             suffixTree.addSuffix(i);
