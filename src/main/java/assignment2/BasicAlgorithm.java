@@ -16,7 +16,7 @@ public class BasicAlgorithm {
 
             int found = -1;
 
-            for (int i=0; i<text.length()-pattern.length(); i++){
+            for (int i=0; i<=text.length()-pattern.length(); i++){
                 if (text.substring(i, i+pattern.length()).equals(pattern)){
                     found = i;
                     break;

@@ -21,7 +21,7 @@ public class SuffixTree {
     }
 
     public void addSuffix(int position){
-        root.addSuffix(position);
+        root.addSuffix(position, position);
     }
 
     public List<Integer> search(String text, List<String> patterns){

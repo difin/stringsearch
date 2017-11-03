@@ -1,4 +1,2 @@
-3
-TCP
-TYT
-IIIC
+1
+gatc

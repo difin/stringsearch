@@ -98,10 +98,18 @@ public class MainDriver {
         StopWatch timer = new StopWatch();
         timer.start();
 
-        assert output1.size() == output2.size();
+        if (output1.size() != output2.size()){
+            throw new RuntimeException("Outputs are not equal: different length");
+        }
 
         for (int i=0; i<output1.size(); i++){
-            assert output2.get(i).intValue() == output1.get(i).intValue();
+
+            int o1 = output1.get(i).intValue();
+            int o2 = output2.get(i).intValue();
+
+            if (o1 != o2){
+                throw new RuntimeException("Outputs are not equal");
+            }
         }
 
         timer.stop();
