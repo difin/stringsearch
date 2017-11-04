@@ -20,8 +20,6 @@ public class SuffixTreeBuilder {
             suffixTree.addSuffix(i);
         }
 
-        suffixTree.verifyEdgesSorting();
-
         return suffixTree;
     }
 }

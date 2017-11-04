@@ -1,7 +1,7 @@
 package assignment2.suffixtree;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by dfingerman on 10/29/17.
@@ -11,11 +11,11 @@ public class Node {
     private static String text;
 
     private int position;
-    private List<Edge> edges;
+    private Map<Character, Edge> edges;
 
     public Node(int position){
         this.position = position;
-        edges = new ArrayList<>();
+        edges = new HashMap<Character, Edge>();
     }
 
     public static void setText(String text) {
@@ -23,20 +23,20 @@ public class Node {
     }
 
     public void addEdge(Edge edge){
-        insertEdge(0, edges.size(), edge);
+        insertEdge(edge);
     }
 
     public int getPosition() {
         return position;
     }
 
-    public List<Edge> getEdges() {
+    public Map<Character, Edge> getEdges() {
         return edges;
     }
 
     public void addSuffix(int position, int positionOriginal){
 
-        Edge edge = findCommonPrefixEdge(0, edges.size(), position);
+        Edge edge = findCommonPrefixEdge(position);
         int suffixLength = text.length() - position;
 
         if (edge != null){
@@ -103,137 +103,29 @@ public class Node {
         addEdge(edge1);
     }
 
-    public Edge findCommonPrefixEdge(int minEdgePosition, int maxEdgePosition, int position){
+    public Edge findCommonPrefixEdge(int position){
 
-        if (position == text.length()){
-            return null;
+        if (position == -1 || position == text.length()){
+            return edges.get(Character.MIN_VALUE);
         }
-
-        if (minEdgePosition >= maxEdgePosition){
-
-            if (minEdgePosition == edges.size()){
-                return null;
-            }
-
-            Edge minEdge = edges.get(minEdgePosition);
-            int compare = compareCharacters(minEdge.getStartPosition(), position);
-
-            if (compare == 0){
-                return edges.get(minEdgePosition);
-            }
-
-            return null;
-        }
-
-        int middleEdgePosition = (minEdgePosition + maxEdgePosition) / 2;
-        Edge middleEdge = edges.get(middleEdgePosition);
-
-        int compare = compareCharacters(middleEdge.getStartPosition(), position);
-
-        if (compare == 0){
-            return edges.get(middleEdgePosition);
-        }
-
-        if (compare < 0){
-            return findCommonPrefixEdge(middleEdgePosition+1, maxEdgePosition, position);
-        }
-
-        if (compare > 0){
-            return findCommonPrefixEdge(minEdgePosition, middleEdgePosition-1, position);
-        }
-
-        return null;
-    }
-
-    public void insertEdge(int minEdgePosition, int maxEdgePosition, Edge edgeToInsert){
-
-        if (minEdgePosition >= maxEdgePosition){
-
-            if (minEdgePosition == edges.size()){
-                edges.add(minEdgePosition, edgeToInsert);
-                return;
-            }
-
-            Edge minEdge = edges.get(minEdgePosition);
-            int compare = compareFirstChracter(minEdge, edgeToInsert);
-
-            if (compare >= 0){
-                edges.add(minEdgePosition, edgeToInsert);
-                return;
-            }
-
-            if (compare < 0){
-                edges.add(minEdgePosition+1, edgeToInsert);
-                return;
-            }
-        }
-
-        int middleEdgePosition = (minEdgePosition + maxEdgePosition) / 2;
-        Edge middleEdge = edges.get(middleEdgePosition);
-        int compare = compareFirstChracter(middleEdge, edgeToInsert);
-
-        if (compare == 0){
-            edges.add(middleEdgePosition, edgeToInsert);
-            return;
-        }
-
-        if (compare < 0){
-            insertEdge(middleEdgePosition+1, maxEdgePosition, edgeToInsert);
-            return;
-        }
-
-        if (compare > 0){
-            insertEdge(minEdgePosition, middleEdgePosition-1, edgeToInsert);
-            return;
+        else{
+            return edges.get(text.charAt(position));
         }
     }
 
-    public void verifyEdgesSorting(){
-
-        for (int i=0; i<edges.size(); i++){
-
-            Edge edge = edges.get(i);
-
-            if ((i+1) < edges.size()){
-
-                Edge nextEdge = edges.get(i+1);
-
-                if (compareFirstChracter(edge, nextEdge) > 0){
-                    throw new RuntimeException("Edge sorting is wrong");
-                }
-            }
-
-            edge.getNode().verifyEdgesSorting();
-        }
+    public Edge findCommonPrefixEdge(String pattern){
+        return edges.get(pattern.charAt(0));
     }
 
-    public int compareFirstChracter(Edge edge1, Edge edge2){
-        return compareCharacters(edge1.getStartPosition(), edge2.getStartPosition());
-    }
+    public void insertEdge(Edge edgeToInsert){
 
-    private int compareCharacters(int pos1, int pos2){
+        Character key = Character.MIN_VALUE;
 
-        if ((pos1 == -1) && (pos2 == -1)){
-            return 0;
+        if (edgeToInsert.getStartPosition() != -1 && edgeToInsert.getStartPosition() < text.length()){
+            key = text.charAt(edgeToInsert.getStartPosition());
         }
 
-        if (pos2 == -1){
-            return -1;
-        }
-
-        if (pos1 == -1){
-            return 1;
-        }
-
-        if (text.charAt(pos1) < text.charAt(pos2)){
-            return -1;
-        }
-
-        if (text.charAt(pos1) > text.charAt(pos2)){
-            return 1;
-        }
-
-        return 0;
+        edges.put(key, edgeToInsert);
     }
 
     private int countCommonPrefixLength(int start1, int end1, int start2, int end2){
@@ -291,27 +183,30 @@ public class Node {
 
     public int search(String pattern){
 
-        for (Edge edge : getEdges()){
+        Edge edge = findCommonPrefixEdge(pattern);
 
-            if (edge.getStartPosition() == -1){
-                if (pattern.length() == 0){
-                    return edge.getNode().getPosition();
-                }
-                else{
-                    continue;
-                }
-            }
+        if (edge == null){
+            return -1;
+        }
 
-            String edgeValue = text.substring(edge.getStartPosition(), edge.getEndPosition());
-            int commonCount = countCommonPrefixLength(edgeValue, pattern);
-
-            if (commonCount == pattern.length()){
+        if (edge.getStartPosition() == -1){
+            if (pattern.length() == 0){
                 return edge.getNode().getPosition();
             }
-
-            if (commonCount > 0){
-                return edge.getNode().search(pattern.substring(commonCount));
+            else{
+                return -1;
             }
+        }
+
+        String edgeValue = text.substring(edge.getStartPosition(), edge.getEndPosition());
+        int commonCount = countCommonPrefixLength(edgeValue, pattern);
+
+        if (commonCount == pattern.length()){
+            return edge.getNode().getPosition();
+        }
+
+        if (commonCount > 0){
+            return edge.getNode().search(pattern.substring(commonCount));
         }
 
         return -1;
