@@ -13,13 +13,13 @@ public class Node {
     private int position;
     private Map<Character, Edge> edges;
 
+    public static void setText(String text) {
+        Node.text = text;
+    }
+
     public Node(int position){
         this.position = position;
         edges = new HashMap<Character, Edge>();
-    }
-
-    public static void setText(String text) {
-        Node.text = text;
     }
 
     public void addEdge(Edge edge){
@@ -78,25 +78,27 @@ public class Node {
 
                 return;
             }
+            else{// commonCount == edge.getEndPosition() - edge.getStartPosition()){
 
-            if (commonCount == edge.getEndPosition() - edge.getStartPosition()){
                 edge.getNode().addSuffix(position + commonCount, positionOriginal);
                 return;
             }
         }
+        else{ // no edge with common prefix
 
-        Node node1 = new Node(positionOriginal);
+            Node node1 = new Node(positionOriginal);
 
-        int edge1StartPosition = -1;
-        int edge1EndPosition = -1;
+            int edge1StartPosition = -1;
+            int edge1EndPosition = -1;
 
-        if (position < text.length()){
-            edge1StartPosition = position;
-            edge1EndPosition = position + suffixLength;
+            if (position < text.length()){
+                edge1StartPosition = position;
+                edge1EndPosition = position + suffixLength;
+            }
+
+            Edge edge1 = new Edge(edge1StartPosition, edge1EndPosition, node1);
+            addEdge(edge1);
         }
-
-        Edge edge1 = new Edge(edge1StartPosition, edge1EndPosition, node1);
-        addEdge(edge1);
     }
 
     public Edge findCommonPrefixEdge(int position){
@@ -115,11 +117,11 @@ public class Node {
 
     public void insertEdge(Edge edgeToInsert){
 
-        if (edgeToInsert.getStartPosition() != -1 && edgeToInsert.getStartPosition() < text.length()){
-            edges.put(text.charAt(edgeToInsert.getStartPosition()), edgeToInsert);
+        if (edgeToInsert.getStartPosition() == -1 || edgeToInsert.getStartPosition() == text.length()){
+            edges.put(Character.MIN_VALUE, edgeToInsert);
         }
         else{
-            edges.put(Character.MIN_VALUE, edgeToInsert);
+            edges.put(text.charAt(edgeToInsert.getStartPosition()), edgeToInsert);
         }
     }
 
