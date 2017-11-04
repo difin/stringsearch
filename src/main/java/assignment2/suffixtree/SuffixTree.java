@@ -34,4 +34,8 @@ public class SuffixTree {
 
         return outputList;
     }
+
+    public void verifyEdgesSorting(){
+        root.verifyEdgesSorting();
+    }
 }
