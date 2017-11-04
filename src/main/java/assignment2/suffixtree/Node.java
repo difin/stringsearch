@@ -30,10 +30,6 @@ public class Node {
         return position;
     }
 
-    public Map<Character, Edge> getEdges() {
-        return edges;
-    }
-
     public void addSuffix(int position, int positionOriginal){
 
         Edge edge = findCommonPrefixEdge(position);
@@ -119,13 +115,12 @@ public class Node {
 
     public void insertEdge(Edge edgeToInsert){
 
-        Character key = Character.MIN_VALUE;
-
         if (edgeToInsert.getStartPosition() != -1 && edgeToInsert.getStartPosition() < text.length()){
-            key = text.charAt(edgeToInsert.getStartPosition());
+            edges.put(text.charAt(edgeToInsert.getStartPosition()), edgeToInsert);
         }
-
-        edges.put(key, edgeToInsert);
+        else{
+            edges.put(Character.MIN_VALUE, edgeToInsert);
+        }
     }
 
     private int countCommonPrefixLength(int start1, int end1, int start2, int end2){
