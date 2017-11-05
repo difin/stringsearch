@@ -1,25 +1,33 @@
 package assignment2.suffixtree;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by dfingerman on 10/29/17.
  */
 public class Node {
 
     private static String text;
+    private static Edge[][] edges;
+    private static int edgesCounter;
 
     private int position;
-    private Map<Character, Edge> edges;
+    private int id;
 
     public static void setText(String text) {
         Node.text = text;
+        edges = new Edge[400000][27];
+        edgesCounter = 0;
+
+        for (int i=0; i<400000; i++){
+            edges[i] = new Edge[27];
+        }
+
+        System.out.println("Done");
     }
 
     public Node(int position){
         this.position = position;
-        edges = new HashMap<Character, Edge>();
+        this.id = edgesCounter;
+        edgesCounter++;
     }
 
     public void addEdge(Edge edge){
@@ -51,7 +59,7 @@ public class Node {
 
                     Edge edge1 = new Edge(edge.getStartPosition(), edge.getStartPosition() + commonCount, node1);
 
-                    edges.remove(text.charAt(edge.getStartPosition()));
+                    //edges[getArrValue(text.charAt(edge.getStartPosition()))] = null;
                     addEdge(edge1);
 
                     Node node2 = new Node(positionOriginal);
@@ -100,27 +108,32 @@ public class Node {
         return 1;
     }
 
+    private int getArrValue(char c){
+        return c - 65;
+    }
+
     public Edge findCommonPrefixEdge(int position){
 
         if (position == -1 || position == text.length()){
-            return edges.get(Character.MIN_VALUE);
+            return edges[id][26];
         }
         else{
-            return edges.get(text.charAt(position));
+            return edges[id][getArrValue(text.charAt(position))];
         }
     }
 
     public Edge findCommonPrefixEdge(String pattern){
-        return edges.get(pattern.charAt(0));
+        return edges[id][getArrValue(pattern.charAt(0))];
     }
 
     public void insertEdge(Edge edgeToInsert){
 
         if (edgeToInsert.getStartPosition() == -1 || edgeToInsert.getStartPosition() == text.length()){
-            edges.put(Character.MIN_VALUE, edgeToInsert);
+            edges[id][26] = edgeToInsert;
         }
         else{
-            edges.put(text.charAt(edgeToInsert.getStartPosition()), edgeToInsert);
+            int key = getArrValue(text.charAt(edgeToInsert.getStartPosition()));
+            edges[id][key] = edgeToInsert;
         }
     }
 

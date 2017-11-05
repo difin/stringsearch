@@ -18,7 +18,7 @@ public class FileUtils {
 
             List<String> lines = new ArrayList<String>();
             while((line = bufferedReader.readLine()) != null){
-                lines.add(line.toLowerCase());
+                lines.add(line);
             }
 
             return lines;
