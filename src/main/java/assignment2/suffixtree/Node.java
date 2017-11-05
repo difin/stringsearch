@@ -34,12 +34,13 @@ public class Node {
 
         Edge edge = findCommonPrefixEdge(position);
         int suffixLength = text.length() - position;
+        int edgeValueLength = edge.getEndPosition() - edge.getStartPosition();
 
         if (edge != null){
 
             int commonCount = countCommonPrefixLength(edge.getStartPosition(), edge.getEndPosition(), position, text.length());
 
-            if (commonCount < edge.getEndPosition() - edge.getStartPosition()){
+            if (commonCount < edgeValueLength){
 
                 if (edge.getEndPosition() - (edge.getStartPosition() + commonCount) > 0){
 
@@ -78,7 +79,7 @@ public class Node {
 
                 return;
             }
-            else{// commonCount == edge.getEndPosition() - edge.getStartPosition()){
+            else{// commonCount == edgeValueLength
 
                 edge.getNode().addSuffix(position + commonCount, positionOriginal);
                 return;
