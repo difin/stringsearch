@@ -31,7 +31,7 @@ public class FileUtils {
 
     public static void listToFile(String fileName, List<Integer> outputList){
 
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName));){
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName))){
 
             for (int i=0; i<outputList.size(); i++){
                 Integer line = outputList.get(i);
