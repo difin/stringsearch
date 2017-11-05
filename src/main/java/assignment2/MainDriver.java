@@ -90,7 +90,7 @@ public class MainDriver {
         suffixCodesAlgorithmOutput = suffixTree.search(text, patterns);
 
         timer.stop();
-        System.out.println("Suffix codes algorithm time: " + timer.toString());
+        System.out.println("Suffix tree search time: " + timer.toString());
     }
 
     public static void verifyOutputEquality(List<Integer> output1, List<Integer> output2){
