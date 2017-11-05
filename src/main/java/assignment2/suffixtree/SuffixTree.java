@@ -20,8 +20,8 @@ public class SuffixTree {
         root.addEdge(edge1);
     }
 
-    public void addSuffix(int position){
-        root.addSuffix(position, position);
+    public int addSuffix(int position){
+        return root.addSuffix(position, position);
     }
 
     public List<Integer> search(String text, List<String> patterns){

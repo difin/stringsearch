@@ -30,14 +30,14 @@ public class Node {
         return position;
     }
 
-    public void addSuffix(int position, int positionOriginal){
+    public int addSuffix(int position, int positionOriginal){
 
         Edge edge = findCommonPrefixEdge(position);
         int suffixLength = text.length() - position;
-        int edgeValueLength = edge.getEndPosition() - edge.getStartPosition();
 
         if (edge != null){
 
+            int edgeValueLength = edge.getEndPosition() - edge.getStartPosition();
             int commonCount = countCommonPrefixLength(edge.getStartPosition(), edge.getEndPosition(), position, text.length());
 
             if (commonCount < edgeValueLength){
@@ -51,7 +51,7 @@ public class Node {
 
                     Edge edge1 = new Edge(edge.getStartPosition(), edge.getStartPosition() + commonCount, node1);
 
-                    edges.remove(edge);
+                    edges.remove(text.charAt(edge.getStartPosition()));
                     addEdge(edge1);
 
                     Node node2 = new Node(positionOriginal);
@@ -66,7 +66,7 @@ public class Node {
                     Edge edge3 = new Edge(edge3StartPosition, edge3EndPosition, node2);
                     node1.addEdge(edge3);
                 }
-                else{
+                else{ // commonCount == edgeValueLength
 
                     Node node1 = new Node(positionOriginal);
 
@@ -76,13 +76,9 @@ public class Node {
                     Edge edge1 = new Edge(edge1StartPosition, edge1EndPosition, node1);
                     edge.getNode().addEdge(edge1);
                 }
-
-                return;
             }
-            else{// commonCount == edgeValueLength
-
-                edge.getNode().addSuffix(position + commonCount, positionOriginal);
-                return;
+            else{ // commonCount == edgeValueLength
+                return 1 + edge.getNode().addSuffix(position + commonCount, positionOriginal);
             }
         }
         else{ // no edge with common prefix
@@ -100,6 +96,8 @@ public class Node {
             Edge edge1 = new Edge(edge1StartPosition, edge1EndPosition, node1);
             addEdge(edge1);
         }
+
+        return 1;
     }
 
     public Edge findCommonPrefixEdge(int position){
