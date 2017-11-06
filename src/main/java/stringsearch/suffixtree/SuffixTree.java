@@ -1,4 +1,4 @@
-package assignment2.suffixtree;
+package stringsearch.suffixtree;
 
 import java.util.ArrayList;
 import java.util.List;

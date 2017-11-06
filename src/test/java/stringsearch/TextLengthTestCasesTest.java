@@ -1,4 +1,4 @@
-package assignment2;
+package stringsearch;
 
 import org.junit.Rule;
 import org.junit.Test;

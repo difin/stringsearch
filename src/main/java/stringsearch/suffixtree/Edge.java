@@ -1,4 +1,4 @@
-package assignment2.suffixtree;
+package stringsearch.suffixtree;
 
 /**
  * Created by dfingerman on 10/30/17.

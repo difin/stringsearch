@@ -1,4 +1,4 @@
-package assignment2.suffixtree;
+package stringsearch.suffixtree;
 
 import java.util.HashMap;
 import java.util.Map;

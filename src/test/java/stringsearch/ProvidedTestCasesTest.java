@@ -1,4 +1,4 @@
-package assignment2;
+package stringsearch;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -8,9 +8,7 @@ import org.junit.runner.Description;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dfingerman on 9/30/17.

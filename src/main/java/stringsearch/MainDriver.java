@@ -1,7 +1,7 @@
-package assignment2;
+package stringsearch;
 
-import assignment2.suffixtree.SuffixTree;
-import assignment2.suffixtree.SuffixTreeBuilder;
+import stringsearch.suffixtree.SuffixTree;
+import stringsearch.suffixtree.SuffixTreeBuilder;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.io.IOException;

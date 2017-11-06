@@ -1,4 +1,4 @@
-package assignment2;
+package stringsearch;
 
 import java.util.ArrayList;
 import java.util.List;

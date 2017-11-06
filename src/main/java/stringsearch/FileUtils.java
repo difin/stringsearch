@@ -1,9 +1,8 @@
-package assignment2;
+package stringsearch;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dfingerman on 9/23/17.

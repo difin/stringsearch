@@ -1,4 +1,4 @@
-package assignment2;
+package stringsearch;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
